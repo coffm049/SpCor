@@ -1,13 +1,19 @@
-
-#'============== @Score_function
+#' ============== @Score_function
 #'
 # Q: How did we get this score? does LMER provide this directly?
 lmerScore <- function(lmerModel) {
-                  X_mat     = getME(lmerModel, "X")  # Fixed-effects design matrix
-                  residuals = resid(lmerModel)   # Residuals
-                  
-                  sigma2_e = sigma(lmerModel)^2  # Residual variance
-                  score = t(X_mat) %*% (residuals / sigma2_e)
-                  return(score)
+  X_mat <- lme4::getME(lmerModel, "X") # Fixed-effects design matrix
+  residuals <- resid(lmerModel) # Residuals
+
+  score <- t(X_mat) %*% (residuals / sigma(lmerModel)^2)
+  return(score)
 }
 
+allScores <- function(data, dependentVar, voxels, groupVar) {
+  score <- sapply(voxels, function(voxel) {
+    formula <- as.formula(paste(dependentVar, " ~", voxel, "+ (1 |", groupVar, ")-1"))
+    model <- lme4::lmer(formula, data = data)
+    score <- lmerScore(model)
+    return(score)
+  })
+}

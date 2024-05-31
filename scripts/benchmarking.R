@@ -1,31 +1,30 @@
-#' =========@data_generation
-#' =========@ Model Y.ij =X1.ij' beta1 +X2.ij' beta2 + Z1.i' alpha.i + error
-#'
-library(dplyr)
 library(lme4)
-library(numDeriv)
-library(parallel)
 library(devtools)
+library(tidyverse)
+library(parallel)
 load_all()
+
+
 n_sites <- 50
 n_fam_ps <- 10
 n_ind_pf <- 2
 n_vox <- 5
-P <- 10
-# Set the number of cores to use
+P <- 50
+
 num_cores <- 4
-data <- data_generation(n_sites = 50, n_fam_ps = 10, n_ind_pf = 2, n_vox = 5)
+time1 <- Sys.time()
+data <- data_generation(n_sites = n_sites, n_fam_ps = n_fam_ps, n_ind_pf = n_ind_pf, n_vox = n_vox)
+time2 <- Sys.time()
+dataGenTime <- time2 - time1
+
 
 #' ============== @Score_function
 #'
+time1 <- Sys.time()
 fixed_effects <- paste0("X", 1:n_vox)
-
-score <- sapply(1:n_vox, function(i) {
-  formula <- as.formula(paste("Y ~", fixed_effects[[i]], "+ (1 | Z1)-1"))
-  model <- lmer(formula, data = data)
-  score <- lmerScore(model)
-  return(score)
-})
+score <- allScores(data, "Y", fixed_effects, "Z1")
+time2 <- Sys.time()
+scoreTime <- time2 - time1
 
 #' =============== @permutesd_score_stats-with-parallelization
 # Load the necessary package
@@ -33,9 +32,10 @@ score <- sapply(1:n_vox, function(i) {
 
 # Use mclapply to run the function in parallel
 time1 <- Sys.time()
-scores <- mclapply(1:P, permute_and_fit, mc.cores = num_cores)
+scores <- mclapply(1:P, FUN = function(i) permute_and_fit(data = data, dependentVar = "Y", voxels = fixed_effects, groupVar = "Z1"), mc.cores = num_cores)
 time2 <- Sys.time()
-time2 - time1
+permuteTime <- time2 - time1
+
 scores_matrix <- t(do.call(cbind, scores))
 scores_matrix <- as.matrix(apply(scores_matrix, 2, as.numeric))
 # Compute the covariance matrix
@@ -45,8 +45,5 @@ covariance_matrix <- cov(scores_matrix)
 print(covariance_matrix)
 
 
-#' =============================@burdenstat
-
 p_value <- burdenP(score, scores, covariance_matrix)
-
-delta <- ifelse(p_value < 0.05, 1, 0)
+print(p_value)
