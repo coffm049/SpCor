@@ -31,6 +31,5 @@ covariance_matrix <- cov(scores_matrix)
 
 #' =============================@burdenstat
 p_value <- burdenP(score, scores, covariance_matrix)
-print(paste0("simulations/", args$scenario, "/", args$scenario, ".results"))
-write(p_value, file = paste0("simulations/", args$scenario, "/", args$scenario, ".results"), append = TRUE)
+write(p_value, file = paste0("simulations/", args$scenario, "/", args$scenario, ".pvalues"), append = TRUE)
 print(p_value)
