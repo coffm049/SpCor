@@ -12,7 +12,8 @@ lmerScore <- function(lmerModel) {
 allScores <- function(data, dependentVar, voxels, groupVar) {
   score <- sapply(voxels, function(voxel) {
     formula <- as.formula(paste(dependentVar, " ~", voxel, "+ (1 |", groupVar, ")-1"))
-    model <- lme4::lmer(formula, data = data)
+    model <- lme4::glmer(formula, data = data, nAGQ <- 0)
+    # model <- lme4::lmer(formula, data = data)
     score <- lmerScore(model)
     return(score)
   })
