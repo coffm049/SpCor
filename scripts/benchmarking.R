@@ -5,13 +5,19 @@ library(parallel)
 load_all()
 
 
-n_sites <- 50
-n_fam_ps <- 10
-n_ind_pf <- 2
-n_vox <- 5
-P <- 50
-
-num_cores <- 4
+args <- parseCLI()
+n_sites <- args$nsites
+n_fam_ps <- args$nfamPerSite
+n_ind_pf <- args$nmembersPerFamily
+n_vox <- args$nfeatures
+P <- args$permutations
+n_cores <- args$cores
+# n_sites <- 50
+# n_fam_ps <- 10
+# n_ind_pf <- 2
+# n_vox <- 5
+# P <- 10
+# n_cores <- 4
 time1 <- Sys.time()
 data <- data_generation(n_sites = n_sites, n_fam_ps = n_fam_ps, n_ind_pf = n_ind_pf, n_vox = n_vox)
 time2 <- Sys.time()
