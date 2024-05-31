@@ -31,8 +31,6 @@ covariance_matrix <- cov(scores_matrix)
 
 #' =============================@burdenstat
 p_value <- burdenP(score, scores, covariance_matrix)
-
-delta <- ifelse(p_value < 0.05, 1, 0)
 print(paste0("simulations/", args$scenario, "/", args$scenario, ".results"))
-write(delta, file = paste0("simulations/", args$scenario, "/", args$scenario, ".results"), append = TRUE)
-print(delta)
+write(p_value, file = paste0("simulations/", args$scenario, "/", args$scenario, ".results"), append = TRUE)
+print(p_value)
