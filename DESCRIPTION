@@ -10,7 +10,8 @@ License: MIT + file LICENSE
 Imports: 
     dplyr,
     lme4,
-    magrittr
+    magrittr,
+    Rfast
 Suggests: 
     devtools,
     testthat,

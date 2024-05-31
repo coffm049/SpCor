@@ -1,0 +1,6 @@
+connect tc-vpn-1.vpn.umn.edu
+[GROUP or 0 or 1]
+[USER]
+[PASSWORD]
+y
+exit

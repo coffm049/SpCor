@@ -1,20 +1,16 @@
 #' ============== @Score_function
 #'
 # Q: How did we get this score? does LMER provide this directly?
-lmerScore <- function(lmerModel) {
-  X_mat <- lme4::getME(lmerModel, "X") # Fixed-effects design matrix
-  residuals <- resid(lmerModel) # Residuals
-
-  score <- t(X_mat) %*% (residuals / sigma(lmerModel)^2)
-  return(score)
-}
 
 allScores <- function(data, dependentVar, voxels, groupVar) {
   score <- sapply(voxels, function(voxel) {
-    formula <- as.formula(paste(dependentVar, " ~", voxel, "+ (1 |", groupVar, ")-1"))
-    # model <- lme4::glmer(formula, data = data, nAGQ <- 0)
-    model <- lme4::lmer(formula, data = data, control = lme4::lmerControl(calc.derivs = FALSE))
-    score <- lmerScore(model)
+    model1 <- Rfast::colrint.regbx(x = data[[voxel]], y = matrix(data[[dependentVar]]), id = data[[groupVar]])
+
+    prediction <- model1$be[1] + model1$be[2] * data[[voxel]]
+    # grab the random effect associated with the given group
+    re_vec <- vapply(data[[groupVar]], function(group) model1$ranef[group], numeric(1))
+    residuals <- data[[dependentVar]] - prediction - re_vec
+    score <- t(data[[voxel]]) %*% (residuals / model1$info[[2]]^2)
     return(score)
   })
 }
