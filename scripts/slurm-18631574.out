@@ -1,0 +1,10 @@
+Installing packages into ‘/panfs/jay/groups/31/rando149/coffm049/R/x86_64-pc-linux-gnu-library/4.2’
+(as ‘lib’ is unspecified)
+also installing the dependencies ‘listenv’, ‘parallelly’, ‘deldir’, ‘future’, ‘globals’, ‘png’, ‘jpeg’, ‘interp’, ‘SparseM’, ‘MatrixModels’, ‘survival’, ‘future.apply’, ‘gridExtra’, ‘mvtnorm’, ‘latticeExtra’, ‘CompQuadForm’, ‘mnormt’, ‘pbivnorm’, ‘quadprog’, ‘pracma’, ‘carData’, ‘abind’, ‘nnet’, ‘quantreg’, ‘phylolm’, ‘ape’, ‘phyr’, ‘gsl’, ‘nonnest2’, ‘sandwich’, ‘lavaan’, ‘KernSmooth’, ‘poorman’, ‘zoo’, ‘xts’, ‘PKI’, ‘packrat’, ‘renv’, ‘V8’, ‘rvest’, ‘nloptr’, ‘MEMSS’, ‘mlmRev’, ‘optimx’, ‘gamm4’, ‘pbkrtest’, ‘HSAUR3’, ‘numDeriv’, ‘car’, ‘dfoptim’, ‘statmod’, ‘rr2’, ‘semEff’, ‘merDeriv’, ‘philentropy’, ‘collections’, ‘pacman’, ‘foghorn’, ‘spelling’, ‘magick’, ‘bookdown’, ‘patrick’, ‘tufte’, ‘dygraphs’, ‘rsconnect’, ‘katex’, ‘cleanrmd’
+
+trying URL 'http://cran.us.r-project.org/src/contrib/listenv_0.9.1.tar.gz'
+Content type 'application/x-gzip' length 36600 bytes (35 KB)
+==================================================
+downloaded 35 KB
+
+trying URL 'http://cran.us.r-project.org/src/contrib/parallelly_1.37.1.tar.gz'
